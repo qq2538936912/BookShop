@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div id="app">
+       <p v-for="user in users">
+           <span>编号：{{user.userno}}</span>
+           <span>用户名：{{user.username}}</span>
+           <span>密码：{{user.userpass}}</span>
+           <span>手机号：{{user.phone}}</span>
+           <span>注册时间：{{user.createtime}}</span>
+       </p>
+        <div>
+        <input v-model="username" placeholder="用户名">
+        <input v-model="userpass" placeholder="密码">
+        <input v-model="phone" placeholder="手机号">
+        <button @click="adduser">注册</button>
+        </div>
+        <div>
+            <input v-model="uphone" placeholder="手机号">
+            <input v-model="upass" placeholder="新密码">
+            <input v-model="upass2" placeholder="旧密码">
+            <button @click="updateuser">修改</button>
+        </div>
+    </div>
+</body>
+    <script>
+        new Vue({
+            el:"#app",
+            data:{
+                users:[],
+                username: "",
+                userpass: "",
+                phone: "",
+                uphone: "",
+                upass: "",
+                upass2: "",
+            },
+            created(){
+                axios.get("/BookShop_war_exploded/SelectAllUserServlet").then(e =>{
+                    console.log(e);
+                    this.users = e.data;
+                })
+            },
+            methods:{
+                adduser(){
+                    axios.post("/BookShop_war_exploded/AddUserServlet?username=" + this.username + "&userpass=" + this.userpass + "&phone=" + this.phone).then(e =>{
+                        console.log("添加成功");
+                    });
+                },
+                updateuser(){
+                    if (this.upass === this.upass2){
+                        axios.post("/BookShop_war_exploded/UpdateUserpassServlet?phone=" + this.uphone + "&upass=" + this.upass).then(e =>{
+                        console.log("修改成功");
+                    })}
+                    else {
+                        console.log("两次密码输入不一样");
+                    }
+                }
+            }
+        })
+    </script>
+</html>
