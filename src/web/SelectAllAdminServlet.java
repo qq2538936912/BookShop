@@ -22,7 +22,6 @@ public class SelectAllAdminServlet extends HttpServlet {
         try {
             AdminDao admindao = new AdminDao();
             List<Admin> admins = admindao.selectalladmin();
-            System.out.println(admins);
             PrintWriter writer = response.getWriter();
             writer.println(new Gson().toJson(admins));
         } catch (Exception e) {

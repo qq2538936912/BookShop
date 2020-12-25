@@ -17,7 +17,6 @@ public class SelectAllUserServlet extends HttpServlet {
         try {
             UserDao userdao = new UserDao();
             List<User> users = userdao.selectalluser();
-            System.out.println(users);
             PrintWriter writer = response.getWriter();
             writer.println(new Gson().toJson(users));
         } catch (Exception e) {

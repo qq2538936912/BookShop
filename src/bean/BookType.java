@@ -3,9 +3,9 @@ package bean;
 import java.util.Date;
 
 public class BookType {
-    private int typeNo;     //ID
-    private String name;    //类型名称
-    private Date createtime;//注册时间
+    private int typeNo;         //ID
+    private String name;        //类型名称
+    private Date createtime;    //注册时间
 
     public int getTypeNo() {
         return typeNo;
@@ -35,6 +35,13 @@ public class BookType {
 
     public BookType(String name) {
         this.name = name;
+    }
+
+    public BookType(int typeNo) { this.typeNo = typeNo; }
+
+    public BookType(int typeNo, String name) {
+        this.name = name;
+        this.typeNo = typeNo;
     }
 
     @Override

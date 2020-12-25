@@ -8,11 +8,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class User {
-    private int userno;     //ID
-    private String username;//用户名
-    private String userpass;//密码
-    private String phone;   //手机号
-    private Date createtime;//注册时间
+    private int userno;         //ID
+    private String username;    //用户名
+    private String userpass;    //密码
+    private String phone;       //手机号
+    private int state;          //使用状态
+    private Date createtime;    //注册时间
 
     public int getUserno() {
         return userno;
@@ -46,7 +47,17 @@ public class User {
         this.phone = phone;
     }
 
-    public Date getCreatetime() throws Exception {return createtime;}
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public Date getCreatetime() {
+        return createtime;
+    }
 
     public void setCreatetime(Date createtime) {
         this.createtime = createtime;
@@ -72,6 +83,7 @@ public class User {
                 ", username='" + username + '\'' +
                 ", userpass='" + userpass + '\'' +
                 ", phone='" + phone + '\'' +
+                ", state=" + state +
                 ", createtime=" + createtime +
                 '}';
     }

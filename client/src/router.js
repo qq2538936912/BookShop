@@ -1,15 +1,15 @@
 import VueRouter from "vue-router";
-import shop from './components/Shop'
-import app from "./App"
+import shop from "./components/Shop"
+import main from "./components/Main"
 // 路由规则，返回路由对象
 export default new VueRouter({
     routes: [
         {
-            path: "/shop" , component: shop
+            path: '/shop/:id', component: shop
         },
         {
-            path: "/app", component: app
-        },
+            path: '/main', component: main
+        }
     ],
     mode: 'hash'
 });

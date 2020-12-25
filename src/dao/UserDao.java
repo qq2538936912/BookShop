@@ -12,10 +12,10 @@ import java.util.List;
 
 public class UserDao {
     /**
-     * @selectalluser()查询所有图书商品
-     * @selectbyphoneuser()根据手机号查找用户
-     * @adduser()注册用户
-     * @updateuserpass()修改用户密码(待完善)
+     * selectalluser 查询所有图书商品
+     * selectbyphoneuser 根据手机号查找用户
+     * adduser 注册用户
+     * updateuserpass 修改用户密码(待完善)
      *
      */
     public List<User> selectalluser() throws Exception{

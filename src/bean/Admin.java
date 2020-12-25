@@ -3,10 +3,11 @@ package bean;
 import java.util.Date;
 
 public class Admin {
-    private int uid;        //主键ID
-    private String user;    //管理员账号
-    private String password;//管理员密码
-    private Date createtime;//注册时间
+    private int uid;            //主键ID
+    private String user;        //管理员账号
+    private String password;    //管理员密码
+    private Date createtime;    //注册时间
+    private int state;          //使用状态
 
     public int getUid() {
         return uid;
@@ -40,7 +41,17 @@ public class Admin {
         this.createtime = createtime;
     }
 
-    public Admin() {}
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public Admin() {
+
+    }
 
     public Admin(String user, String password) {
         this.user = user;
@@ -54,6 +65,7 @@ public class Admin {
                 ", user='" + user + '\'' +
                 ", password='" + password + '\'' +
                 ", createtime=" + createtime +
+                ", state=" + state +
                 '}';
     }
 }

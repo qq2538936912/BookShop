@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <div v-for="admin in admins">
+        <p>ID：{{admin.uid}}</p>
+        <p>管理员账号：{{admin.user}}</p>
+        <p>管理员密码：{{admin.password}}</p>
+        <p>注册时间：{{admin.createtime}}</p>
+    </div>
+</div>
+<img src="../img/cyghksdjh.jpg">
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            admins:[],
+        },
+        created(){
+            axios.get("/BookShop_war_exploded/SelectAllAdminServlet").then(e =>{
+                console.log(e);
+                this.admins = e.data;
+            })
+        },
+    })
+</script>
+</html>

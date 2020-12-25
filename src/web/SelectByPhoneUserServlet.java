@@ -19,10 +19,10 @@ public class SelectByPhoneUserServlet extends HttpServlet {
         User user = null;
         try {
             user = userdao.selectbyphoneuser(phone);
+            String gson = new Gson().toJson(user);
+            response.getWriter().write(gson);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        String gson = new Gson().toJson(user);
-        response.getWriter().write(gson);
     }
 }

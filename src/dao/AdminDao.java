@@ -1,7 +1,6 @@
 package dao;
 
 import bean.Admin;
-import bean.Book;
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
@@ -11,8 +10,8 @@ import java.util.List;
 
 public class AdminDao {
     /**
-     * @selectalladmin()查询所有管理员
-     * @updateadminpassword()更改管理员密码(待完善)
+     * selectalladmin 查询所有管理员
+     * updateadminpassword 更改管理员密码(待完善)
      *
      *
      *

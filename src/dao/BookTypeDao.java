@@ -1,6 +1,5 @@
 package dao;
 
-import bean.Book;
 import bean.BookType;
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
@@ -12,10 +11,10 @@ import java.util.List;
 
 public class BookTypeDao {
     /**
-     * @selectallbooktype()查询所有图书种类
-     * @addbooktype()添加图书种类
-     * @updatebooktype()根据图书种类编号更改图书种类信息
-     * @deletebooktype()根据图书种类编号删除图书种类
+     * selectallbooktype 查询所有图书种类
+     * addbooktype 添加图书种类
+     * updatebooktype 根据图书种类编号更改图书种类信息
+     * deletebooktype 根据图书种类编号删除图书种类
      *
      */
     public List<BookType> selectallbooktype() throws Exception{
@@ -54,10 +53,10 @@ public class BookTypeDao {
 
     public void updatebooktype(BookType booktype) throws Exception{
         Connection connection = DBHelper.getConnection();
-        String sql = "update book_type set name = ?,createtime = ? where typeNo = ?";
+        String sql = "update book_type set name = ? where typeNo = ?";
         try {
             Object[] objects = {
-                    booktype.getName(),booktype.getCreatetime(),booktype.getTypeNo()
+                    booktype.getName(),booktype.getTypeNo()
             };
             QueryRunner queryRunner = new QueryRunner();
             queryRunner.update(connection,sql,objects);

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <div v-for="cartss in carts">
+        <p>{{cartss.cartNo}}</p>
+        <p>{{cartss.productNo}}</p>
+        <p>{{cartss.userNo}}</p>
+        <p>{{cartss.booknum}}</p>
+        <p>{{cartss.cprice}}</p>
+        <p>{{cartss.created}}</p>
+    </div>
+</div>
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            carts:[],
+        },
+        created(){
+            axios.get("/BookShop_war_exploded/SelectAllCartsServlet").then(e =>{
+                console.log(e);
+                this.carts = e.data;
+            })
+        },
+    })
+</script>
+</html>
