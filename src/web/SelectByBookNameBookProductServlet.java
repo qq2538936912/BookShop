@@ -16,11 +16,19 @@ import java.util.List;
 @WebServlet("/SelectByBookNameBookProductServlet")
 public class SelectByBookNameBookProductServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String bookName = request.getParameter("bookName");
+        String bookName = "";
+        String author = "";
+        if (request.getParameter("bookName")!=null){
+            bookName = request.getParameter("bookName");
+        }
+        if (request.getParameter("author")!=null){
+            author = request.getParameter("author");
+        }
         List<Commodity> commodities = null;
         try {
             CommodityDao commodityDao = new CommodityDao();
-            commodities = commodityDao.selectbybooknamebookcommoditie(bookName);
+            commodities = commodityDao.selectbybooknamebookcommoditie(bookName,author);
+            System.out.println(commodities);
             PrintWriter writer = response.getWriter();
             writer.println(new Gson().toJson(commodities));
         } catch (Exception e) {

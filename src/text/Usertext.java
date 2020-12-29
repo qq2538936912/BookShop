@@ -1,18 +1,18 @@
 package text;
 
+import bean.Commodity;
 import bean.User;
+import dao.CommodityDao;
 import dao.UserDao;
 
 import java.util.List;
 
 public class Usertext {
     public static void main(String[] args) {
-        UserDao userdao = new UserDao();
+        CommodityDao commodityDao = new CommodityDao();
         try {
-            //userdao.adduser(new User("ben","123","123456"));
-            //userdao.updateuserpass(new User("4560","120"));
-            User user = userdao.selectbyphoneuser("110");
-            System.out.println(user);
+            List<Commodity> commodities = commodityDao.selectbybooknamebookcommoditie("学","学");
+            System.out.println(commodities);
         } catch (Exception e) {
             e.printStackTrace();
         }

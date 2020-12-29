@@ -1,8 +1,8 @@
 package web;
 
-import bean.Commodity;
+import bean.Classification;
 import com.google.gson.Gson;
-import dao.CommodityDao;
+import dao.ClassificationDao;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,14 +13,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-@WebServlet("/SelectByProductNoCommoditieServlet")
-public class SelectByProductNoCommoditieServlet extends HttpServlet {
+@WebServlet("/SelectAllClassificationServlet")
+public class SelectAllClassificationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int productNo = Integer.parseInt(request.getParameter("productNo"));
         try {
-            Commodity commodities = new CommodityDao().selectbyproductNocommoditie(new Commodity(productNo));
+            ClassificationDao classificationDao = new ClassificationDao();
+            List<Classification> classifications = classificationDao.selectallclassification();
             PrintWriter writer = response.getWriter();
-            writer.println(new Gson().toJson(commodities));
+            writer.println(new Gson().toJson(classifications));
         } catch (Exception e) {
             e.printStackTrace();
         }

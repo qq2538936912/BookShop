@@ -14,8 +14,9 @@ import java.io.IOException;
 public class AddBooktypeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name");
+        int classificationNo = Integer.parseInt(request.getParameter("classificationNo"));
         try {
-            new BookTypeDao().addbooktype(new BookType(name));
+            new BookTypeDao().addbooktype(new BookType(name,classificationNo));
         } catch (Exception e) {
             e.printStackTrace();
         }

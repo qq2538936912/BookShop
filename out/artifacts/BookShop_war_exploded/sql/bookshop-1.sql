@@ -53,14 +53,26 @@ create table book_region
 	created datetime default getdate()	--´´½¨Ê±¼ä
 );
 
+-- Êé¼®ÖÖÀà±í
+create table book_classification
+(
+    classificationNo int identity,					--Ö÷¼üid
+    name varchar(32) not null,						--ÀàĞÍÃû³Æ
+    createtime datetime default getDate() not null	--´´½¨Ê±¼ä
+    primary key (classificationNo)
+)
+
 -- Êé¼®ÀàĞÍ±í
 create table book_type
 (
     typeNo int identity,							--Ö÷¼üid
-    name varchar(32) not null,						--ÀàĞÍÃû³Æ
+    classificationNo int not null,					--Íâ¼ü
+    name varchar(32) not null,						--ÖÖÀàÃû³Æ
     createtime datetime default getDate() not null	--´´½¨Ê±¼ä
-    primary key (typeNO)
+    primary key (typeNO),
+    foreign key (classificationNo) references book_classification(classificationNo)
 )
+
 
 
 -- Êé¼®ÉÌÆ·±í
@@ -144,7 +156,9 @@ insert into book_member(userNO,phone,name,sex,birthday) values(1,'110','ÕÅÈı','Ä
 
 insert into book_region(region) values('´óÂ½'),('º«¹ú')
 
-insert into book_type(name) values('ÀøÖ¾'),('Ğş»Ã'),('ÎäÏÀ'),('ÏÉÏÀ'),('Ææ»Ã'),('Ğ£Ô°'),('¿Æ»Ã'),('ÏÖ´úÑÔÇé'),('¹Å´úÑÔÇé'),('»ÃÏëÑÔÇé'),('Çà´ºĞ£Ô°');
+insert into book_classification(name) values('³ö°æ'),('ÄĞÉú'),('Å®Éú');
+
+insert into book_type(classificationNo,name) values(1,'ÀøÖ¾'),(2,'Ğş»Ã'),(2,'ÎäÏÀ'),(2,'ÏÉÏÀ'),(2,'Ææ»Ã'),(2,'Ğ£Ô°'),(2,'¿Æ»Ã'),(3,'ÏÖ´úÑÔÇé'),(3,'¹Å´úÑÔÇé'),(3,'»ÃÏëÑÔÇé'),(3,'Çà´ºĞ£Ô°');
 
 insert into book_commodity(typeNo,rid,bookName,author,price,buyCount,stock,cover,content)values
 (1,1,'Ñ§Ï°¸ßÊÖ','ÀîÍØÔ¶',25,100,500,'img/xxgs.jpg','ÈçºÎ¼ÇÒä£¬²ÅÄÜÀÎ¹ÌÕÆÎÕÖªÊ¶µã£¿ ÈçºÎ¸´Ï°£¬²ÅÄÜº»ÊµÍêÕûÖªÊ¶ÌåÏµ£¿ÈçºÎ×ÔÑ§£¬²ÅÄÜÊµÏÖÖÕÉí¿ç½ç³É³¤£¿ÕâĞ©ÎÊÌâ£¬¡¶Ñ§Ï°¸ßÊÖ¡·Àï¶¼ÓĞ´ğ°¸¡£±¾ÊéÊÇÒ»±¾Ğ´¸ø¹ã´óÑ§ÉúºÍ¼Ò³¤µÄ£¬ÅàÑø¸ßĞ§Ñ§Ï°ÄÜÁ¦µÄ·½·¨¹¤¾ßÊé¡£×÷Õß×÷Îª¹ş·ğ¡¢Ò®Â³¸ß·Ö±ÏÒµÉú£¬½áºÏÏÈ½øµÄÀíÂÛÖªÊ¶¡¢¾­µäµÄÑ§Ï°¾­Ñé£¬ÏµÍ³·ÖÏíÁË³¬ÊµÓÃµÄÑ§Ï°·¨¡£È«Êé·ÖÎª5´óÄ£¿é¡¢30½Ú´ó¿Î¡¢100+·½·¨£¬°ïÖúÄãÌá¸ßÑ§Ï°³É¼¨£¬´ò¿ªÈËÉú¸ñ¾Ö¡£'),

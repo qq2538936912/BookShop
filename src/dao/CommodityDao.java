@@ -38,13 +38,13 @@ public class CommodityDao {
         return commodities;
     }
 
-    public List<Commodity> selectbybooknamebookcommoditie(String bookName) throws Exception{
+    public List<Commodity> selectbybooknamebookcommoditie(String bookName,String author) throws Exception{
         Connection connection = DBHelper.getConnection();
-        String sql = "select * from book_commodity where bookName like ?";
+        String sql = "select * from book_commodity where bookName like ? or author like ?";
         List<Commodity> commodities = null;
         try {
             QueryRunner runner = new QueryRunner();
-            commodities = runner.query(connection, sql, new BeanListHandler<Commodity>(Commodity.class),"%"+bookName+"%");
+            commodities = runner.query(connection, sql, new BeanListHandler<Commodity>(Commodity.class),"%"+bookName+"%","%"+author+"%");
         }
         catch (Exception e) {
             e.printStackTrace();

@@ -1,33 +1,41 @@
 <template>
     <div>
+
+
         <div>
-            <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-                <el-menu-item index="1"><a href="#" target="_blank">首页</a></el-menu-item>
-                <el-menu-item index="2"><a href="#" target="_blank">分类</a></el-menu-item>
-                <el-menu-item index="3"><a href="#" target="_blank">排行</a></el-menu-item>
-                <el-menu-item index="4"><a href="#" target="_blank">企业服务</a></el-menu-item>
-                <el-menu-item index="5"><a href="#" target="_blank">征文大赛</a></el-menu-item>
-                <el-menu-item index="6"><a href="#" target="_blank">下载</a></el-menu-item>
+            <el-menu class="el-menu-demo" mode="horizontal">
+                <el-menu-item>首页</el-menu-item>
+                <el-menu-item @click="$router.push('/classification')">分类</el-menu-item>
+                <el-menu-item>排行</el-menu-item>
+                <el-menu-item>企业服务</el-menu-item>
+                <el-menu-item>征文大赛</el-menu-item>
+                <el-menu-item>下载</el-menu-item>
                 <div>
                     <div class="main2">
-                        <el-autocomplete
-                                popper-class="my-autocomplete"
-                                v-model="state"
-                                :fetch-suggestions="querySearch"
-                                placeholder="请输入内容"
-                                @select="handleSelect"
-                                class="main3">
-                            <i
-                                    class="el-icon-edit el-input__icon"
-                                    slot="suffix"
-                                    @click="handleIconClick">
-                            </i>
-                            <template slot-scope="{ item }">
-                                <div class="name">{{ item.value }}</div>
-                                <span class="addr">{{ item.address }}</span>
-                            </template>
-                        </el-autocomplete>
-                        <div class="login"><el-button type="primary">登录</el-button></div>
+                        <el-input v-model="input" placeholder="作者/书名"></el-input>
+                        <el-button type="primary"  @click="$router.push('/search/' + input)">搜索</el-button>
+                        <div class="login">
+                                <div v-if="user.phone===form.phone" class="phone">
+                                {{user.phone}}
+                            </div>
+                                <el-button type="button" @click="dialogFormVisible = true" id="login">登录</el-button>
+                                <el-dialog title="用户登录" :visible.sync="dialogFormVisible">
+                                    <el-form :model="form">
+                                        <el-form-item label="手机号" :label-width="formLabelWidth">
+                                            <el-input v-model="form.phone" autocomplete="off"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="密码" :label-width="formLabelWidth">
+                                                <el-input v-model="form.userpass" autocomplete="off"></el-input>
+                                        </el-form-item>
+                                        <span>忘记密码</span>
+                                        <span>注册</span>
+                                    </el-form>
+                                    <div slot="footer" class="dialog-footer">
+                                        <el-button @click="dialogFormVisible = false">取 消</el-button>
+                                        <el-button type="primary" @click="login(dialogFormVisible = false)">确 定</el-button>
+                                    </div>
+                                </el-dialog>
+                            </div>
                     </div>
                 </div>
             </el-menu>
@@ -35,7 +43,7 @@
         <div>
                 <el-carousel type="card" :interval="5000" arrow="always" height="50" indicator-position="outside">
                     <el-carousel-item v-for="commodity in commodities" :key="commodity">
-                        <img :src="'/api/' + commodity.cover">
+                        <img :src="'/api/' + commodity.cover" @click="$router.push('/shop/' + commodity.productNo)" class="img">
                     </el-carousel-item>
                 </el-carousel>
         <div>
@@ -47,15 +55,15 @@
                             <el-aside width="500px" v-for="commodity in commodities" :key="commodity">
                                 <p>图书名称：{{commodity.bookName}}</p>
                                 <p>作者：{{commodity.author}}</p>
-                                <p>封面图：</p><img :src="'/api/' + commodity.cover" class="cimgs" @click="$router.push('/shop/' + commodity.id)">
+                                <p>封面图：</p><img :src="'/api/' + commodity.cover" class="cimgs" @click="$router.push('/shop/' + commodity.productNo)">
                                 <p>图书简介：{{commodity.content}}</p>
-                                <p>价格：{{commodity.price}}</p>
+
                             </el-aside>
                             <el-container>
                                 <div class="bestseller">
                                     <span class="banyan">榜单</span>
-                                    <ul v-for="bestsellers in bestseller" :key="bestsellers">
-                                        <li>{{bestsellers.bookName}}</li>
+                                    <ul v-for="bestsellers in bestseller" :key="bestsellers" >
+                                        <li @click="$router.push('/shop/' + bestsellers.productNo)">{{bestsellers.bookName}}</li>
                                     </ul>
                                 </div>
                             </el-container>
@@ -71,15 +79,15 @@
                          <el-aside width="500px" v-for="commodity in boycommodities" :key="commodity">
                              <p>图书名称：{{commodity.bookName}}</p>
                              <p>作者：{{commodity.author}}</p>
-                             <p>封面图：</p><img :src="'/api/' + commodity.cover" class="cimgs" @click="$router.push('/shop/' + commodity.id)">
+                             <p>封面图：</p><img :src="'/api/' + commodity.cover" class="cimgs" @click="$router.push('/shop/' + commodity.productNo)">
                              <p>图书简介：{{commodity.content}}</p>
-                             <p>价格：<span>{{commodity.price}}</span></p>
+
                          </el-aside>
                          <el-container>
                              <div class="bestseller">
                                  <span class="banyan">榜单</span>
                                  <ul v-for="bestsellers in bestseller" :key="bestsellers">
-                                     <li>{{bestsellers.bookName}}</li>
+                                     <li @click="$router.push('/shop/' + bestsellers.productNo)">{{bestsellers.bookName}}</li>
                                  </ul>
                              </div>
                          </el-container>
@@ -95,15 +103,15 @@
                          <el-aside width="500px" v-for="commodity in girlcommodities" :key="commodity">
                              <p>图书名称：{{commodity.bookName}}</p>
                              <p>作者：{{commodity.author}}</p>
-                             <p>封面图：</p><img :src="'/api/' + commodity.cover" class="cimgs" @click="$router.push('/shop/' + commodity.id)">
+                             <p>封面图：</p><img :src="'/api/' + commodity.cover" class="cimgs" @click="$router.push('/shop/' + commodity.productNo)">
                              <p>图书简介：{{commodity.content}}</p>
-                             <p>价格：{{commodity.price}}</p>
+
                          </el-aside>
                          <el-container>
                              <div class="bestseller">
                                  <span class="banyan">榜单</span>
                                  <ul v-for="bestsellers in bestseller" :key="bestsellers">
-                                     <li @click="$router.push('/shop/' + commodity.id)">{{bestsellers.bookName}}</li>
+                                     <li @click="$router.push('/shop/' + bestsellers.productNo)">{{bestsellers.bookName}}</li>
                                  </ul>
                              </div>
                          </el-container>
@@ -113,6 +121,7 @@
             </div>
         </div>
             <copyright></copyright>
+
     </div>
 </template>
 
@@ -128,14 +137,22 @@
         data() {
             return {
                 input: "",
+                restaurants: [],
+                state2: '',
+                formLabelWidth: '80px',
+                dialogFormVisible: false,
+                dialogTableVisible: false,
+                user: [],
+                phone: "",
                 commodities:[],
                 girlcommodities:[],
                 boycommodities:[],
                 bestseller:[],
-                activeIndex: '1',
-                activeIndex2: '1',
-                state: "",
-                querySearch: ""
+
+                form: {
+                    phone: "",
+                    userpass: "",
+                },
             };
         },
         created(){
@@ -151,24 +168,20 @@
             axios.get("/api/SelectBestsellerCommoditieServlet").then(e =>{
                 this.bestseller = e.data;
             });
-
         },
-        methods: {
-            handleSelect(key, keyPath) {
-                console.log(key, keyPath);
-            },handleIconClick(){
-                console.log("")
-            }
+        methods:{
+            login(dialogFormVisible = false){
+                axios.get("/api/SelectByPhoneUserServlet?phone=" + this.form.phone).then(e =>{
+                    this.user = e.data;
+                     document.getElementById("login").style.visibility="hidden";
+                });
+            },
         }
     }
 </script>
 <style>
-    .el-carousel__item h3 {
-        color: #475669;
-        font-size: 18px;
-        opacity: 0.75;
-        line-height: 300px;
-        margin: 0;
+    .el-menu{
+        padding-bottom: 10px;
     }
 
     .el-carousel__item:nth-child(2n) {
@@ -188,6 +201,8 @@
         background-color: #D3DCE6;
         color: #333;
         font-size: 10px;
+        padding-left: 60px;
+        padding-top: 0px;
         /*text-align: center;*/
         /*line-height: 200px;*/
     }
@@ -207,15 +222,17 @@
     .el-container:nth-child(6) .el-aside {
         line-height: 260px;
     }
+
     .el-container:nth-child(7) .el-aside {
         line-height: 320px;
     }
+
     .el-container{
         padding-left: 50px;
     }
-    .el-aside{
-        padding-left: 60px;
-        padding-top: 0px;
+
+    .el-button{
+        margin: 0px;
     }
 
     .cimgs{
@@ -224,7 +241,7 @@
         padding-left: 70px;
     }
 
-    img{
+    .img{
         height: 100%;
         width: 100%;
     }
@@ -238,6 +255,10 @@
         background-color: #E9EEF3;
         margin-left: 0px;
         font-size: 20px;
+    }
+
+    .el-input{
+        width: 200px;
     }
 
     ul{
@@ -268,4 +289,12 @@
     .main3{
         padding-left: 150px;
     }
+
+    .phone{
+        padding: 0;
+        margin: 0;
+        font-family: "Helvetica Neue";
+        font-size: 25px;
+    }
+
 </style>

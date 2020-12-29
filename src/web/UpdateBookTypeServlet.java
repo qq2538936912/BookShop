@@ -16,8 +16,9 @@ public class UpdateBookTypeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name");
         int typeNo = Integer.parseInt(request.getParameter("typeNo"));
+        int classificationNo = Integer.parseInt(request.getParameter("classificationNo"));
         try {
-            new BookTypeDao().updatebooktype(new BookType(typeNo,name));
+            new BookTypeDao().updatebooktype(new BookType(typeNo,classificationNo,name));
         } catch (Exception e) {
             e.printStackTrace();
         }
