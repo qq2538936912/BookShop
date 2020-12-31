@@ -14,7 +14,7 @@ import java.io.IOException;
 public class UpdateUserpassServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            String userpass = request.getParameter("upass");
+            String userpass = request.getParameter("userpass");
             String phone = request.getParameter("phone");
             UserDao userdao = new UserDao();
             userdao.updateuserpass(new User(userpass,phone));

@@ -35,13 +35,13 @@ public class UserDao {
         return users;
     }
 
-    public User selectbyphoneuser(String phone) throws Exception{
+    public User selectbyphoneuser(String phone,String userpass) throws Exception{
         Connection connection = DBHelper.getConnection();
-        String sql = "select * from book_user where phone = ?";
+        String sql = "select * from book_user where phone = ? and userpass = ?";
         User users = null;
         try {
             QueryRunner runner = new QueryRunner();
-            users = runner.query(connection,sql, new BeanHandler<User>(User.class),phone);
+            users = runner.query(connection,sql, new BeanHandler<User>(User.class),phone,userpass);
         } catch (Exception e) {
             e.printStackTrace();
         }

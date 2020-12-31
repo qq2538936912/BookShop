@@ -1,7 +1,5 @@
 <template>
     <div>
-
-
         <div>
             <el-menu class="el-menu-demo" mode="horizontal">
                 <el-menu-item>首页</el-menu-item>
@@ -18,23 +16,77 @@
                                 <div v-if="user.phone===form.phone" class="phone">
                                 {{user.phone}}
                             </div>
-                                <el-button type="button" @click="dialogFormVisible = true" id="login">登录</el-button>
-                                <el-dialog title="用户登录" :visible.sync="dialogFormVisible">
+
+                            <div>
+                                <el-button type="text" @click="login = true" id="login">登录</el-button>
+
+                                <el-dialog title="外层 Dialog" :visible.sync="login">
+
                                     <el-form :model="form">
                                         <el-form-item label="手机号" :label-width="formLabelWidth">
                                             <el-input v-model="form.phone" autocomplete="off"></el-input>
                                         </el-form-item>
                                         <el-form-item label="密码" :label-width="formLabelWidth">
-                                                <el-input v-model="form.userpass" autocomplete="off"></el-input>
+                                            <el-input v-model="form.userpass" autocomplete="off"></el-input>
                                         </el-form-item>
-                                        <span>忘记密码</span>
-                                        <span>注册</span>
                                     </el-form>
+
+                                    <el-dialog
+                                            width="35%"
+                                            title="内层 Dialog"
+                                            :visible.sync="forgetpassword"
+                                            append-to-body>
+                                        <el-form :model="form2">
+                                            <el-form-item label="手机号" :label-width="formLabelWidth">
+                                                <el-input v-model="form2.phone" autocomplete="off"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="旧密码" :label-width="formLabelWidth">
+                                                <el-input v-model="form2.userpass" autocomplete="off"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="新密码" :label-width="formLabelWidth">
+                                                <el-input v-model="form2.newpassone" autocomplete="off"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="确认新密码" :label-width="formLabelWidth">
+                                                <el-input v-model="form2.newpasstwo" autocomplete="off"></el-input>
+                                            </el-form-item>
+                                        </el-form>
+                                        <div slot="footer" class="dialog-footer">
+                                            <el-button @click="forgetpassword = false">取 消</el-button>
+                                            <el-button type="primary" @click="forgetpassword2(forgetpassword = false)">确 定</el-button>
+                                        </div>
+                                    </el-dialog>
+
+                                    <el-dialog
+                                            width="35%"
+                                            title="内层 Dialog"
+                                            :visible.sync="registeraccount"
+                                            append-to-body>
+                                        <el-form :model="form3">
+                                            <el-form-item label="用户名" :label-width="formLabelWidth">
+                                                <el-input v-model="form3.username" autocomplete="off"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="手机号" :label-width="formLabelWidth">
+                                                <el-input v-model="form3.phone" autocomplete="off"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="密码" :label-width="formLabelWidth">
+                                                <el-input v-model="form3.userpass" autocomplete="off"></el-input>
+                                            </el-form-item>
+                                        </el-form>
+                                        <div slot="footer" class="dialog-footer">
+                                            <el-button @click="registeraccount = false">取 消</el-button>
+                                            <el-button type="primary" @click="registeraccount2(registeraccount = false)">确 定</el-button>
+                                        </div>
+                                    </el-dialog>
+
                                     <div slot="footer" class="dialog-footer">
-                                        <el-button @click="dialogFormVisible = false">取 消</el-button>
-                                        <el-button type="primary" @click="login(dialogFormVisible = false)">确 定</el-button>
+                                        <el-button @click="login = false">取 消</el-button>
+                                        <el-button type="primary" @click="login2(login = false)">确 定</el-button>
+                                        <el-button type="primary" @click="forgetpassword = true">忘记密码</el-button>
+                                        <el-button type="primary" @click="registeraccount = true">注册账号</el-button>
                                     </div>
+
                                 </el-dialog>
+                                </div>
                             </div>
                     </div>
                 </div>
@@ -139,19 +191,32 @@
                 input: "",
                 restaurants: [],
                 state2: '',
-                formLabelWidth: '80px',
-                dialogFormVisible: false,
+                formLabelWidth: '100px',
                 dialogTableVisible: false,
+                login: false,
+                forgetpassword: false,
+                registeraccount: false,
                 user: [],
+                user2:[],
                 phone: "",
                 commodities:[],
                 girlcommodities:[],
                 boycommodities:[],
                 bestseller:[],
-
                 form: {
                     phone: "",
                     userpass: "",
+                },
+                form2:{
+                    phone: "",
+                    userpass: "",
+                    newpassone: "",
+                    newpasstwo: "",
+                },
+                form3:{
+                    username: "",
+                    userpass: "",
+                    phone: ""
                 },
             };
         },
@@ -170,11 +235,26 @@
             });
         },
         methods:{
-            login(dialogFormVisible = false){
+            login2(login = false){
                 axios.get("/api/SelectByPhoneUserServlet?phone=" + this.form.phone).then(e =>{
-                    this.user = e.data;
+                     this.user = e.data;
                      document.getElementById("login").style.visibility="hidden";
                 });
+            },
+            registeraccount2(registeraccount = false){
+                    axios.post("/api/AddUserServlet?username=" + this.form3.username + "&userpass=" + this.form3.userpass + "&phone=" +this.form3.phone)
+            },
+            forgetpassword2(forgetpassword = false){
+                axios.get("/api/SelectByPhoneUserServlet?phone=" + this.form2.phone + "&userpass=" + this.form2.userpass).then(e =>{
+                    this.user2 = e.data;
+                    if (this.user2!=null){
+                        axios.post("/api/UpdateUserpassServlet?userpass=" + this.form2.newpassone + "&phone=" + this.form2.phone)
+                    }
+                    else {
+                        alert("错误")
+                    }
+                });
+
             },
         }
     }

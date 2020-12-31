@@ -15,10 +15,11 @@ import java.io.IOException;
 public class SelectByPhoneUserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String phone = request.getParameter("phone");
+        String userpass = request.getParameter("userpass");
         UserDao userdao = new UserDao();
         User user = null;
         try {
-            user = userdao.selectbyphoneuser(phone);
+            user = userdao.selectbyphoneuser(phone,userpass);
             String gson = new Gson().toJson(user);
             response.getWriter().write(gson);
         } catch (Exception e) {
