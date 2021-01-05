@@ -22,7 +22,7 @@
              <div>
                 <el-container>
                     <img :src="imgurl" class="cimg" >
-                    <div>
+                    <div class="commoditie">
                         <el-header>{{commoditie.bookName}}</el-header>
                         <el-header>作者：{{commoditie.author}}</el-header>
                         <p class="price" >价格：{{commoditie.price}}</p>
@@ -68,7 +68,8 @@
 </script>
 <style>
     .cimg{
-        padding-top: 60px;
+        width: 250px;
+        padding-top: 18px;
         padding-left: 7px;
         padding-right: 40px;
         padding-bottom: 70px;
@@ -78,15 +79,18 @@
     }
 
     .price{
-        padding-left: 605px;
-        font-size: 15px;
+        padding-left: 580px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        font-size: 20px;
     }
 
-    .price .el-button{
-        margin-left: 610px;
+    .price + .el-button{
+        margin-left: 590px;
     }
 
     .el-input{
         width: 200px;
     }
+
 </style>

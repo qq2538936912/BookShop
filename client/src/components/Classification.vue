@@ -25,11 +25,13 @@
                 <li v-for="booktypes in booktype" :key="booktypes" @click="selectbyname(booktypes.name)">{{booktypes.name}}</li>
             </ul>
         </div>
-        <div v-for="books in book" :key="books">
-            <p>图书名称：{{books.bookName}}</p>
-            <p>作者：{{books.author}}</p>
-            <p>封面图：</p><img :src="'/api/' + books.cover" class="cimgs" @click="$router.push('/shop/' + books.productNo)">
-            <p>图书简介：{{books.content}}</p>
+        <div>
+            <ul v-for="books in book" :key="books" class="books">
+            <li>图书名称：{{books.bookName}}</li>
+            <li>作者：{{books.author}}</li>
+            <li>封面图：</li><img :src="'/api/' + books.cover" class="cimgs" @click="$router.push('/shop/' + books.productNo)">
+            <li>图书简介：{{books.content}}</li>
+            </ul>
         </div>
     </div>
 </template>
@@ -82,5 +84,8 @@
 <style scoped>
     .classification li{
         display: inline-block;
+        padding-left: 50px;
+        padding-right: 10px;
     }
+
 </style>
