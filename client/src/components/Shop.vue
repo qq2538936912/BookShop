@@ -3,7 +3,7 @@
             <div>
                 <el-menu class="el-menu-demo" mode="horizontal">
                     <el-menu-item @click="$router.push('/')">首页</el-menu-item>
-                    <el-menu-item @click="$router.push('/classification')">分类</el-menu-item>
+                    <el-menu-item @click="$router.push('/classification/1')">分类</el-menu-item>
                     <el-menu-item>排行</el-menu-item>
                     <el-menu-item>企业服务</el-menu-item>
                     <el-menu-item>征文大赛</el-menu-item>

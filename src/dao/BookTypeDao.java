@@ -7,6 +7,7 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import utils.DBHelper;
 
+import java.awt.print.Book;
 import java.sql.Connection;
 import java.util.List;
 
@@ -117,6 +118,30 @@ public class BookTypeDao {
         }
         finally {
             DbUtils.closeQuietly(connection);
+        }
+    }
+
+    /**
+     * 轮播，推荐销量最低的四本书籍
+     *
+     *params typeNo 书籍类型编号
+     * @return  该编号最低销量的四本书籍
+     * @throws Exception
+     */
+    public List<Commodity> getBookRecom(int typeNo) throws Exception {
+        Connection conn = DBHelper.getConnection();
+        QueryRunner queryRunner = new QueryRunner();
+        String sql = "select * from book_commodity\n" +
+                "left join book_type on book_commodity.typeno=book_type.typeNo\n" +
+                "where book_type.typeNo=?\n" +
+                "order by buyCount \n" +
+                "offset 0 rows \n" +
+                "fetch next 4 rows only";
+        try {
+            List<Commodity> query = queryRunner.query(conn, sql, new BeanListHandler<>(Commodity.class), typeNo);
+            return query;
+        } finally {
+            DbUtils.closeQuietly(conn);
         }
     }
 }

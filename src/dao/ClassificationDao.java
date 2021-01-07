@@ -44,4 +44,14 @@ public class ClassificationDao {
         }
         return commodities;
     }
+
+    public static void main (String[] args) {
+        try {
+            List<Commodity> selectallclassification = new ClassificationDao().selectbyclassificationNo(1);
+            System.out.println(selectallclassification);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }

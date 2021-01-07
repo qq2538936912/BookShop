@@ -19,11 +19,8 @@ export default new VueRouter({
             path: '/search/:params', component: search
         },
         {
-            path: '/classification', component: classification
+            path: '/classification/:params', component: classification
         },
-        {
-            path: '/classif/:classificationNo', component: classification
-        }
     ],
     mode: 'hash'
 });

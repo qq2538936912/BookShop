@@ -3,7 +3,7 @@
         <div>
             <el-menu class="el-menu-demo" mode="horizontal">
                 <el-menu-item>首页</el-menu-item>
-                <el-menu-item @click="$router.push('/classification')">分类</el-menu-item>
+                <el-menu-item @click="$router.push('/classification/1')">分类</el-menu-item>
                 <el-menu-item>排行</el-menu-item>
                 <el-menu-item>企业服务</el-menu-item>
                 <el-menu-item>征文大赛</el-menu-item>
@@ -93,16 +93,16 @@
             </el-menu>
         </div>
         <div>
-                <el-carousel type="card" :interval="5000" arrow="always" height="50" indicator-position="outside">
-                    <el-carousel-item v-for="commodity in commodities" :key="commodity">
-                        <img :src="'/api/' + commodity.cover" @click="$router.push('/shop/' + commodity.productNo)" class="img">
-                    </el-carousel-item>
-                </el-carousel>
+            <BookCarousel></BookCarousel>
         <div  class="body">
              <div>
                 <el-container>
-                        <el-header><span @click="$router.push('/classif/1')">出版图书</span></el-header>
-                        <el-header>小说|励志|文学|经济管理</el-header>
+                        <el-header><span @click="$router.push('/classification/1')">出版图书</span></el-header>
+                    <el-header>
+                        <span v-for="c in class1" :key="c" class="c">
+                            <span @click="$router.push('/classification/' + c.classificationNo)">{{c.name}}</span>
+                        </span>
+                    </el-header>
                         <el-container>
                             <el-aside width="500px" v-for="commodity in commodities" :key="commodity">
                                 <p>图书名称：{{commodity.bookName}}</p>
@@ -123,8 +123,12 @@
 
 
                  <el-container>
-                     <el-header><span @click="$router.push('/classif/2')">男生频道</span></el-header>
-                     <el-header>玄幻|奇幻|武侠</el-header>
+                     <el-header><span @click="$router.push('/classification/2')">男生频道</span></el-header>
+                     <el-header>
+                            <span v-for="c in class2" :key="c" class="c">
+                            <span @click="$router.push('/classification/' + c.classificationNo)">{{c.name}}</span>
+                        </span>
+                     </el-header>
                      <el-container>
                          <el-aside width="500px" v-for="commodity in boycommodities" :key="commodity">
                              <p>图书名称：{{commodity.bookName}}</p>
@@ -146,8 +150,12 @@
 
 
                  <el-container>
-                     <el-header><span @click="$router.push('/classif/3')">女生频道</span></el-header>
-                     <el-header>现代言情|古代言情|幻想言情|青春校园</el-header>
+                     <el-header><span @click="$router.push('/classification/3')">女生频道</span></el-header>
+                     <el-header>
+                         <span v-for="c in class3" :key="c" class="c">
+                            <span @click="$router.push('/classification/' + c.classificationNo)">{{c.name}}</span>
+                         </span>
+                     </el-header>
                      <el-container>
                          <el-aside width="500px" v-for="commodity in girlcommodities" :key="commodity">
                              <p>图书名称：{{commodity.bookName}}</p>
@@ -175,11 +183,11 @@
 <script>
     import copyright from './Copyright'
     import axios from "axios";
-
+    import BookCarousel from "../components/BookCarousel"
     export default {
         name: 'main',
         components:{
-            copyright
+            copyright,BookCarousel
         },
         data() {
             return {
@@ -197,6 +205,7 @@
                 girlcommodities:[],
                 boycommodities:[],
                 bestseller:[],
+                name:[],
                 form: {
                     phone: "",
                     userpass: "",
@@ -212,9 +221,49 @@
                     userpass: "",
                     phone: ""
                 },
-                class3:['现代言情|','古代言情|','幻想言情|','青春校园'],
-                class2:['玄幻|','奇幻|','武侠'],
-                class1:['小说|','励志|','文学|','经济管理'],
+                class3:
+                    [
+                    {
+                        name:'现代言情',
+                        classificationNo: 3
+                    },
+                    {
+                         name:'古代言情',
+                        classificationNo: 3
+                    },
+                    {
+                         name:'幻想言情',
+                         classificationNo: 3
+                    },
+                    {
+                         name:'青春校园',
+                         classificationNo: 3
+                    }
+                    ],
+                class2:[
+                    {
+                        name:'玄幻',
+                        classificationNo: 2
+                    },
+                    {
+                        name:'奇幻',
+                        classificationNo: 2
+                    },
+                    {
+                        name:'武侠',
+                        classificationNo: 2
+                    },
+                ],
+                class1: [
+                    {
+                        name:'励志',
+                        classificationNo: 1
+                    },
+                    {
+                        name:'文学',
+                        classificationNo: 1
+                    },
+                ],
             };
         },
         created(){
@@ -341,13 +390,14 @@
 
     ul{
         padding-left: 0px;
+
     }
 
     li{
         list-style-type: none;
     }
 
-    li > span{
+    li span{
         margin-right: 20px;
     }
 
@@ -382,5 +432,9 @@
 
     .body{
         background-color: #cccccc;
+    }
+
+    .c{
+        padding-left: 20px;
     }
 </style>

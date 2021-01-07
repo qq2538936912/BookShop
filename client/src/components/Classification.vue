@@ -1,5 +1,6 @@
 <template>
     <div>
+
         <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect1">
             <el-menu-item index="1" @click="$router.push('/')">首页</el-menu-item>
             <el-menu-item index="2">分类</el-menu-item>
@@ -37,9 +38,7 @@
 </template>
 
 <script>
-
     import axios from "axios";
-
     export default {
         name: "classification",
         data(){
@@ -53,13 +52,13 @@
             }
         },
         created() {
-            axios.get("/api/SelectByClassificationNoTypeServlet?classificationNo=1").then(e =>{
-                this.booktype = e.data;
-            });
             axios.get("/api/SelectAllClassificationServlet").then(e =>{
                 this.classification = e.data;
             });
-            axios.get("/api/SelectByClassificationNoServlet?classificationNo=1").then(e =>{
+            axios.get("/api/SelectByClassificationNoTypeServlet?classificationNo=" + this.$route.params.params).then(e =>{
+                this.booktype = e.data;
+            });
+            axios.get("/api/SelectByClassificationNoServlet?classificationNo=" + this.$route.params.params).then(e =>{
                 this.book = e.data;
             });
         },
@@ -87,5 +86,4 @@
         padding-left: 50px;
         padding-right: 10px;
     }
-
 </style>
