@@ -5,6 +5,7 @@ import bean.Address;
 import bean.Cart;
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import utils.DBHelper;
 
@@ -34,13 +35,29 @@ public class CartDao {
         }
         return carts;
     }
+    public List<Cart> selectbyuserNo(int userNo) throws Exception{
+        Connection connection = DBHelper.getConnection();
+        String sql = "select * from book_cart where userNo = ?";
+        List<Cart> carts = null;
+        try {
+            QueryRunner runner = new QueryRunner();
+            carts = runner.query(connection, sql, new BeanListHandler<Cart>(Cart.class),userNo);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            DbUtils.closeQuietly(connection);
+        }
+        return carts;
+    }
 
     public void addcart(Cart cart) throws Exception{
         Connection connection = DBHelper.getConnection();
         String sql = "insert into book_cart(productNo,userNo,booknum,cprice) values(?,?,?,?)";
         try {
             Object[] object = {
-                    cart.getProductNo(),cart.getCartNo(),cart.getBooknum(),cart.getCprice()
+                    cart.getProductNo(),cart.getUserNo(),cart.getBooknum(),cart.getCprice()
             };
             QueryRunner runner = new QueryRunner();
             runner.update(connection,sql,object);

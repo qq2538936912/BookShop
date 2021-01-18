@@ -50,7 +50,21 @@ public class UserDao {
         }
         return users;
     }
-
+    public User selectbyphone(String phone) throws Exception{
+        Connection connection = DBHelper.getConnection();
+        String sql = "select * from book_user where phone = ?";
+        User users = null;
+        try {
+            QueryRunner runner = new QueryRunner();
+            users = runner.query(connection,sql, new BeanHandler<User>(User.class),phone);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            DbUtils.closeQuietly(connection);
+        }
+        return users;
+    }
 
     public void adduser(User user) throws Exception{
         Connection connection = DBHelper.getConnection();

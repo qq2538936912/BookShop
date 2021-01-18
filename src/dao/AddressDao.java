@@ -3,6 +3,7 @@ package dao;
 import bean.Address;
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import utils.DBHelper;
 
@@ -24,6 +25,23 @@ public class AddressDao {
         try {
             QueryRunner runner = new QueryRunner();
             addresses = runner.query(connection, sql, new BeanListHandler<Address>(Address.class));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            DbUtils.closeQuietly(connection);
+        }
+        return addresses;
+    }
+
+    public List<Address> selectbyuserNoaddress(int userNo) throws Exception{
+        Connection connection = DBHelper.getConnection();
+        String sql = "select * from user_address where userNo = ?";
+        List<Address> addresses = null;
+        try {
+            QueryRunner runner = new QueryRunner();
+            addresses = runner.query(connection, sql, new BeanListHandler<Address>(Address.class),userNo);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -84,4 +102,5 @@ public class AddressDao {
             DbUtils.closeQuietly(connection);
         }
     }
+
 }

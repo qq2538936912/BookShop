@@ -3,6 +3,7 @@ package dao;
 import bean.Order;
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import utils.DBHelper;
 
@@ -33,13 +34,29 @@ public class OrderDao {
         }
         return orders;
     }
+    public List<Order> selectbyuserNoorder(int userNo) throws Exception{
+        Connection connection = DBHelper.getConnection();
+        String sql = "select * from book_order where userNo = ?";
+        List<Order> orders = null;
+        try {
+            QueryRunner runner = new QueryRunner();
+            orders = runner.query(connection, sql, new BeanListHandler<Order>(Order.class),userNo);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            DbUtils.closeQuietly(connection);
+        }
+        return orders;
+    }
 
     public void addorder(Order order) throws Exception{
         Connection connection = DBHelper.getConnection();
         String sql = "insert into book_order(userno,productNo,addressNo,payment_number,productnum,amount,remarks) values(?,?,?,?,?,?,?)";
         try {
             Object[] object = {
-                    order.getUserNo(),order.getProductNo(),order.getAddressNo(),order.getPayment_number(),order.getAmount(),order.getRemarks()
+                    order.getUserNo(),order.getProductNo(),order.getAddressNo(),order.getPayment_number(),order.getProductnum(),order.getAmount(),order.getRemarks()
             };
             QueryRunner runner = new QueryRunner();
             runner.update(connection,sql,object);

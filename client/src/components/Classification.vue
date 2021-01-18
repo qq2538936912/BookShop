@@ -20,19 +20,20 @@
         </el-menu>
         <div class="classification">
             <ul>频道
-                <li v-for="classifications in classification" :key="classifications" @click="bt(classifications.classificationNo)">{{classifications.name}}</li>
+                <li v-for="c in classification" :key="c.classificationNo" @click="bt(c.classificationNo)">{{c.name}}</li>
             </ul>
             <ul>类型
-                <li v-for="booktypes in booktype" :key="booktypes" @click="selectbyname(booktypes.name)">{{booktypes.name}}</li>
+                <li v-for="b in booktype" :key="b.booktypeNo" @click="selectbyname(b.name)">{{b.name}}</li>
             </ul>
         </div>
-        <div>
-            <ul v-for="books in book" :key="books" class="books">
-            <li>图书名称：{{books.bookName}}</li>
-            <li>作者：{{books.author}}</li>
-            <li>封面图：</li><img :src="'/api/' + books.cover" class="cimgs" @click="$router.push('/shop/' + books.productNo)">
-            <li>图书简介：{{books.content}}</li>
-            </ul>
+
+        <div  v-for="b in book" :key="b.bookNo" class="books" id="nav">
+            <h1>图书名称：{{b.bookName}}</h1>
+            <h1>作者：{{b.author}}</h1>
+            <p><img :src="'/api/' + b.cover" class="cimgs" @click="$router.push('/shop/' + b.productNo)"></p>
+            <p>图书简介：{{b.content}}</p>
+
+
         </div>
     </div>
 </template>
@@ -58,9 +59,17 @@
             axios.get("/api/SelectByClassificationNoTypeServlet?classificationNo=" + this.$route.params.params).then(e =>{
                 this.booktype = e.data;
             });
-            axios.get("/api/SelectByClassificationNoServlet?classificationNo=" + this.$route.params.params).then(e =>{
-                this.book = e.data;
-            });
+            if (!this.$route.params.params2){
+                axios.get("/api/SelectByClassificationNoServlet?classificationNo=" + this.$route.params.params).then(e =>{
+                    this.book = e.data;
+                });
+            }
+            if (this.$route.params.params2){
+                axios.get("/api/SelectByNameServlet?name=" + this.$route.params.params2).then(e =>{
+                    this.book = e.data;
+                });
+            }
+
         },
         methods:{
             bt(classificationNo){
@@ -72,18 +81,18 @@
                 });
             },
             selectbyname(name){
-                axios.get("/api/SelectByNameServlet?name=" + name).then(e =>{
-                    this.book = e.data;
-                });
+                    axios.get("/api/SelectByNameServlet?name=" + name).then(e =>{
+                        this.book = e.data;
+                    });
             },
-        }
+        },
     }
 </script>
 
 <style scoped>
     .classification li{
-        display: inline-block;
         padding-left: 50px;
         padding-right: 10px;
+        display:inline;
     }
 </style>

@@ -12,7 +12,7 @@
                 <!--图片轮播-->
                 <div>
                     <ul>
-                        <li v-for="(i,index) in bookRecom" :key="index">
+                        <li v-for="(i,index) in bookRecom" :key="index.productNo">
                             <img @click="$router.push('/shop/' + i.productNo)" @mouseleave="mouseLeave"
                                  :src="'/api'+ i.cover"
                                  @mouseenter="over(i,index)"
@@ -49,7 +49,6 @@
             //鼠标移出图片时，去除 width and height,并重新调用轮播
             mouseLeave() {
                 clearInterval(this.time);
-                console.log("移出")
                 this.active = {}
                 this.go()
             },
@@ -58,7 +57,6 @@
                 this.book = this.bookRecom[this.n]
                 this.active = {width: '170px', height: '220px', cursor: "pointer"}
                 this.time = window.setInterval(() => {
-
                     this.n++
                     if (this.n == this.bookRecom.length) {
                         this.n = 0
@@ -84,14 +82,11 @@
                     url: '/api/GetBookRecomServlet',
                     params: {typeNo: index}
                 }).then(resp => {
-                    console.log(resp)
                         clearInterval(this.time);
                         this.bookRecom = resp.data;
-                        console.log(this.bookRecom)
                         //调用轮播
                         this.n = 0
                         this.go()
-
                 })
             },
         },

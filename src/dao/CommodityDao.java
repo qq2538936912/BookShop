@@ -134,7 +134,41 @@ public class CommodityDao {
 
     public List<Commodity> selectbestsellercommoditie() throws Exception{
         Connection connection = DBHelper.getConnection();
-        String sql = "select top(10)* from book_commodity where productNo between 2 and 10";
+        String sql = "select top(7)* from book_commodity where productNo between 2 and 10";
+        List<Commodity> commodities = null;
+        try {
+            QueryRunner runner = new QueryRunner();
+            commodities = runner.query(connection, sql, new BeanListHandler<Commodity>(Commodity.class));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            DbUtils.closeQuietly(connection);
+        }
+        return commodities;
+    }
+
+    public List<Commodity> selectbestsellercommoditie2() throws Exception{
+        Connection connection = DBHelper.getConnection();
+        String sql = "select top(7)* from book_commodity where productNo between 11 and 20";
+        List<Commodity> commodities = null;
+        try {
+            QueryRunner runner = new QueryRunner();
+            commodities = runner.query(connection, sql, new BeanListHandler<Commodity>(Commodity.class));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            DbUtils.closeQuietly(connection);
+        }
+        return commodities;
+    }
+
+    public List<Commodity> selectbestsellercommoditie3() throws Exception{
+        Connection connection = DBHelper.getConnection();
+        String sql = "select top(7)* from book_commodity where productNo between 21 and 30";
         List<Commodity> commodities = null;
         try {
             QueryRunner runner = new QueryRunner();

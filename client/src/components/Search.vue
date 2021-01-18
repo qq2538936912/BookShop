@@ -17,11 +17,11 @@
                 </div>
             </div>
         </el-menu>
-        <div v-for="commodities in commoditie" :key="commodities">
-            <p>图书名称：{{commodities.bookName}}</p>
-            <p>作者：{{commodities.author}}</p>
-            <p>封面图：</p><img :src="'/api/' + commodities.cover"  @click="$router.push('/shop/' + commodities.productNo)">
-            <p>图书简介：{{commodities.content}}</p>
+        <div v-for="c in commoditie" :key="c">
+            <p>图书名称：{{c.bookName}}</p>
+            <p>作者：{{c.author}}</p>
+            <p>封面图：</p><img :src="'/api/' + c.cover"  @click="$router.push('/shop/' + c.productNo)">
+            <p>图书简介：{{c.content}}</p>
         </div>
     </div>
 </template>

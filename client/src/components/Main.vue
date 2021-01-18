@@ -1,5 +1,6 @@
 <template>
     <div>
+
         <div>
             <el-menu class="el-menu-demo" mode="horizontal">
                 <el-menu-item>首页</el-menu-item>
@@ -13,14 +14,14 @@
                         <el-input v-model="input" placeholder="作者/书名"></el-input>
                         <el-button type="primary"  @click="$router.push('/search/' + input)">搜索</el-button>
                         <div class="login">
-                                <div v-if="user.phone===form.phone" class="phone">
-                                {{user.phone}}
+                            <div class="phone" v-if="this.user">
+                                <span @click="$router.push('/user/' + user.phone)">{{user.phone}}</span>
                             </div>
 
                             <div>
                                 <el-button type="text" @click="login = true" id="login">登录</el-button>
 
-                                <el-dialog title="外层 Dialog" :visible.sync="login">
+                                <el-dialog title="登录" :visible.sync="login">
 
                                     <el-form :model="form">
                                         <el-form-item label="手机号" :label-width="formLabelWidth">
@@ -33,7 +34,7 @@
 
                                     <el-dialog
                                             width="35%"
-                                            title="内层 Dialog"
+                                            title="忘记密码"
                                             :visible.sync="forgetpassword"
                                             append-to-body>
                                         <el-form :model="form2">
@@ -58,7 +59,7 @@
 
                                     <el-dialog
                                             width="35%"
-                                            title="内层 Dialog"
+                                            title="注册"
                                             :visible.sync="registeraccount"
                                             append-to-body>
                                         <el-form :model="form3">
@@ -79,10 +80,11 @@
                                     </el-dialog>
 
                                     <div slot="footer" class="dialog-footer">
-                                        <el-button @click="login = false" id="cansoul">取 消</el-button>
-                                        <el-button type="primary" @click="login2(login = false)">确 定</el-button>
                                         <el-button type="primary" @click="forgetpassword = true">忘记密码</el-button>
                                         <el-button type="primary" @click="registeraccount = true">注册账号</el-button>
+                                        <el-button @click="login = false" id="cansoul">取 消</el-button>
+                                        <el-button type="primary" @click="login2(login = false)">确 定</el-button>
+
                                     </div>
 
                                 </el-dialog>
@@ -99,12 +101,12 @@
                 <el-container>
                         <el-header><span @click="$router.push('/classification/1')">出版图书</span></el-header>
                     <el-header>
-                        <span v-for="c in class1" :key="c" class="c">
-                            <span @click="$router.push('/classification/' + c.classificationNo)">{{c.name}}</span>
+                        <span v-for="c in class1" :key="c.classificationNo" class="c">
+                            <span @click="$router.push('/classification2/' + c.classificationNo + '/' + c.name)">{{c.name}}</span>
                         </span>
                     </el-header>
                         <el-container>
-                            <el-aside width="500px" v-for="commodity in commodities" :key="commodity">
+                            <el-aside width="500px" v-for="commodity in commodities" :key="commodity.productNo">
                                 <p>图书名称：{{commodity.bookName}}</p>
                                 <p>作者：{{commodity.author}}</p>
                                 <p>封面图：</p><img :src="'/api/' + commodity.cover" class="cimgs" @click="$router.push('/shop/' + commodity.productNo)">
@@ -113,8 +115,8 @@
                             <el-container>
                                 <div class="bestseller">
                                     <span class="banyan">榜单</span>
-                                    <ul v-for="(bestsellers,index) in bestseller" :key="bestsellers" >
-                                        <li @click="$router.push('/shop/' + bestsellers.productNo)"><span>{{index+1}}</span>{{bestsellers.bookName}}</li>
+                                    <ul v-for="(bs,index) in bestseller" :key="bs.productNo" >
+                                        <li @click="$router.push('/shop/' + bs.productNo)"><span>{{index+1}}</span>{{bs.bookName}}</li>
                                     </ul>
                                 </div>
                             </el-container>
@@ -125,12 +127,12 @@
                  <el-container>
                      <el-header><span @click="$router.push('/classification/2')">男生频道</span></el-header>
                      <el-header>
-                            <span v-for="c in class2" :key="c" class="c">
-                            <span @click="$router.push('/classification/' + c.classificationNo)">{{c.name}}</span>
+                            <span v-for="ctwo in class2" :key="ctwo.name" class="c">
+                            <span @click="$router.push('/classification2/' + ctwo.classificationNo + '/' + ctwo.name)">{{ctwo.name}}</span>
                         </span>
                      </el-header>
                      <el-container>
-                         <el-aside width="500px" v-for="commodity in boycommodities" :key="commodity">
+                         <el-aside width="500px" v-for="commodity in boycommodities" :key="commodity.productNo">
                              <p>图书名称：{{commodity.bookName}}</p>
                              <p>作者：{{commodity.author}}</p>
                              <p>封面图：</p><img :src="'/api/' + commodity.cover" class="cimgs" @click="$router.push('/shop/' + commodity.productNo)">
@@ -139,8 +141,8 @@
                          <el-container>
                              <div class="bestseller">
                                  <span class="banyan">榜单</span>
-                                 <ul v-for="(bestsellers,index) in bestseller" :key="bestsellers">
-                                     <li @click="$router.push('/shop/' + bestsellers.productNo)"><span>{{index+1}}</span>{{bestsellers.bookName}}</li>
+                                 <ul v-for="(btwo,index) in bestseller2" :key="btwo.productNo">
+                                     <li @click="$router.push('/shop/' + btwo.productNo)"><span>{{index+1}}</span>{{btwo.bookName}}</li>
                                  </ul>
                              </div>
                          </el-container>
@@ -152,22 +154,22 @@
                  <el-container>
                      <el-header><span @click="$router.push('/classification/3')">女生频道</span></el-header>
                      <el-header>
-                         <span v-for="c in class3" :key="c" class="c">
-                            <span @click="$router.push('/classification/' + c.classificationNo)">{{c.name}}</span>
+                         <span v-for="cthree in class3" :key="cthree.classificationNo" class="c">
+                              <span @click="$router.push('/classification2/' + cthree.classificationNo + '/' + cthree.name)">{{cthree.name}}</span>
                          </span>
                      </el-header>
                      <el-container>
-                         <el-aside width="500px" v-for="commodity in girlcommodities" :key="commodity">
-                             <p>图书名称：{{commodity.bookName}}</p>
-                             <p>作者：{{commodity.author}}</p>
-                             <p>封面图：</p><img :src="'/api/' + commodity.cover" class="cimgs" @click="$router.push('/shop/' + commodity.productNo)">
-                             <p>图书简介：{{commodity.content}}</p>
+                         <el-aside width="500px" v-for="girlcommodity in girlcommodities" :key="girlcommodity.productNo">
+                             <p>图书名称：{{girlcommodity.bookName}}</p>
+                             <p>作者：{{girlcommodity.author}}</p>
+                             <p>封面图：</p><img :src="'/api/' + girlcommodity.cover" class="cimgs" @click="$router.push('/shop/' + girlcommodity.productNo)">
+                             <p>图书简介：{{girlcommodity.content}}</p>
                          </el-aside>
                          <el-container>
                              <div class="bestseller">
                                  <span class="banyan">榜单</span>
-                                 <ul v-for="(bestsellers,index) in bestseller" :key="bestsellers">
-                                     <li @click="$router.push('/shop/' + bestsellers.productNo)"><span>{{index+1}}</span>{{bestsellers.bookName}}</li>
+                                 <ul v-for="(bstwo,index) in bestseller3" :key="bstwo.productNo">
+                                     <li @click="$router.push('/shop/' + bstwo.productNo)"><span>{{index+1}}</span>{{bstwo.bookName}}</li>
                                  </ul>
                              </div>
                          </el-container>
@@ -205,6 +207,8 @@
                 girlcommodities:[],
                 boycommodities:[],
                 bestseller:[],
+                bestseller2:[],
+                bestseller3:[],
                 name:[],
                 form: {
                     phone: "",
@@ -224,15 +228,15 @@
                 class3:
                     [
                     {
-                        name:'现代言情',
+                        name: '现代言情',
                         classificationNo: 3
                     },
                     {
-                         name:'古代言情',
-                        classificationNo: 3
+                         name: '古代言情',
+                         classificationNo: 3
                     },
                     {
-                         name:'幻想言情',
+                         name: '幻想言情',
                          classificationNo: 3
                     },
                     {
@@ -266,7 +270,7 @@
                 ],
             };
         },
-        created(){
+        mounted(){
             axios.get("/api/SelectRandomCommoditieServlet").then(e =>{
                  this.commodities = e.data;
             });
@@ -279,6 +283,24 @@
             axios.get("/api/SelectBestsellerCommoditieServlet").then(e =>{
                 this.bestseller = e.data;
             });
+            axios.get("/api/SelectBestsellerCommoditie2Servlet").then(e =>{
+                this.bestseller2 = e.data;
+            });
+            axios.get("/api/SelectBestsellerCommoditie3Servlet").then(e =>{
+                this.bestseller3 = e.data;
+            });
+            if (this.user){
+                document.getElementById("login").style.visibility="hidden";
+            }
+            this.user = JSON.parse(window.sessionStorage.getItem("user"));
+            if (this.user){
+                document.getElementById("login").style.visibility="hidden";
+            }
+        },
+        created() {
+            this.user = JSON.parse(window.sessionStorage.getItem("user"));
+            this.user3 = JSON.parse(window.sessionStorage.getItem("user"));
+            this.form4.userNo = this.user3.userno;
         },
         methods:{
             login2(login = false){
@@ -289,6 +311,7 @@
                      }
                      else {
                          document.getElementById("login").style.visibility="hidden";
+                         window.sessionStorage.setItem("user",JSON.stringify(this.user));
                      }
                 });
             },
@@ -306,7 +329,7 @@
                     }
                 });
             },
-        }
+        },
     }
 </script>
 <style>
@@ -378,6 +401,7 @@
     }
 
     .bestseller{
+        width: 330px;
         height: 650px;
         background-color: #ffffff;
         margin-left: 0px;
@@ -404,7 +428,6 @@
     .bestseller .banyan{
         font-size: 30px;
         margin-left: 100px;
-
     }
 
     p span ,p{
