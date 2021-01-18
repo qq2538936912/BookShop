@@ -100,4 +100,21 @@ public class UserDao {
             DbUtils.closeQuietly(connection);
         }
     }
+
+    public void updateuser(User user) throws Exception{
+        Connection connection = DBHelper.getConnection();
+        String sql = "update book_user set username=?,userpass = ?,phone = ? where userno = ?";
+        try {
+            Object[] objects = {
+                    user.getUsername(),user.getUserpass(),user.getPhone(),user.getUserno()
+            };
+            QueryRunner queryRunner = new QueryRunner();
+            queryRunner.update(connection,sql,objects);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            DbUtils.closeQuietly(connection);
+        }
+    }
 }

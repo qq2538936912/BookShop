@@ -69,12 +69,12 @@ public class AddressDao {
         }
     }
 
-    public void updateaddress(Address address) throws Exception{
+    public void updateaddress(String consignee,String detail_address,String tel,int addressNo) throws Exception{
         Connection connection = DBHelper.getConnection();
-        String sql = "update user_address set userno = ?,consignee = ?,detail_address = ?,tel = ? where userNo = ?";
+        String sql = "update user_address set consignee = ?,detail_address = ?,tel = ? where addressNo = ?";
         try {
             Object[] objects = {
-                    address.getUserNo(),address.getConsignee(),address.getDetail_address(),address.getTel(),address.getUserNo()
+                    consignee,detail_address,tel,addressNo
             };
             QueryRunner queryRunner = new QueryRunner();
             queryRunner.update(connection,sql,objects);
@@ -86,15 +86,12 @@ public class AddressDao {
         }
     }
 
-    public void deleteaddress(Address address) throws Exception{
+    public void deleteaddress(int addressNo) throws Exception{
         Connection connection = DBHelper.getConnection();
-        String sql = "delete from user_address where userNo = ?";
+        String sql = "delete from user_address where addressNo = ?";
         try {
-            Object[] objects = {
-                    address.getUserNo()
-            };
             QueryRunner queryRunner = new QueryRunner();
-            queryRunner.update(connection,sql,objects);
+            queryRunner.update(connection,sql,addressNo);
         } catch (Exception e) {
             e.printStackTrace();
         }

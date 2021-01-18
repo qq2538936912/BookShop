@@ -13,12 +13,12 @@ import java.io.IOException;
 @WebServlet("/UpdateAddressServlet")
 public class UpdateAddressServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int userNo = Integer.parseInt(request.getParameter("userNo"));
+        int addressNo = Integer.parseInt(request.getParameter("addressNo"));
         String consignee = request.getParameter("consignee");
         String detail_address = request.getParameter("detail_address");
         String tel = request.getParameter("tel");
         try {
-            new AddressDao().updateaddress(new Address(userNo,consignee,detail_address,tel));
+            new AddressDao().updateaddress(consignee,detail_address,tel,addressNo);
         } catch (Exception e) {
             e.printStackTrace();
         }

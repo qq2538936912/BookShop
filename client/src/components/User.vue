@@ -22,7 +22,7 @@
                 </div>
                     {{user.createtime}}
                 </div>
-                    <el-button>修改</el-button>
+                    <el-button @click="updateuser(user.userno,user.username,user.userpass,user.phone)" >修改</el-button>
         </div>
             </el-tab-pane>
             <el-tab-pane label="我的购物车">
@@ -71,8 +71,8 @@
                         <el-input v-model="ar.detail_address" placeholder="请输入内容"></el-input>
                             <el-tag>手机号</el-tag>
                             <el-input v-model="ar.tel" placeholder="请输入内容"></el-input>
-                        <el-button>修改</el-button>
-                        <el-button>删除</el-button>
+                        <el-button @click="updateaddress(ar.addressNo,ar.consignee,ar.detail_address,ar.tel)">修改</el-button>
+                        <el-button @click="deladdress(ar.addressNo)">删除</el-button>
                         </div>
                     </div>
             </el-tab-pane>
@@ -116,6 +116,33 @@
                     this.address = e.data;
                 });
             });
+        },
+        methods:{
+            deladdress(addressNo){
+                axios.post("/api/DeleteAddressServlet?addressNo=" + addressNo).then(e =>{
+                    alert("删除成功")
+                    axios.get("/api/SelectByUserNoAddressServlet?userNo=" + this.user.userno).then(e =>{
+                        this.address = e.data;
+                    });
+                });
+            },
+            updateaddress(addressNo,consignee,detail_address,tel){
+                axios.post("/api/UpdateAddressServlet?addressNo=" + addressNo + "&consignee=" + consignee + "&detail_address=" + detail_address + "&tel=" + tel).then(e =>{
+                    alert("修改成功")
+                    axios.get("/api/SelectByUserNoAddressServlet?userNo=" + this.user.userno).then(e =>{
+                        this.address = e.data;
+                    });
+                });
+            },
+            updateuser(userno,username,userpass,phone){
+                console.log(userno+username+userpass+phone)
+                axios.post("/api/UpdateUserServlet?userno=" + userno + "&username=" + username + "&userpass=" + userpass + "&phone=" + phone).then(e =>{
+                    alert("修改成功")
+                    axios.get("/api/SelectByPhoneServlet?phone=" + this.$route.params.phone).then(e =>{
+                        this.user = e.data;
+                    });
+                });
+            }
         }
     }
 </script>

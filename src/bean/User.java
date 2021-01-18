@@ -76,6 +76,13 @@ public class User {
         this.phone = phone;
     }
 
+    public User(int userno, String username, String userpass, String phone) {
+        this.userno = userno;
+        this.username = username;
+        this.userpass = userpass;
+        this.phone = phone;
+    }
+
     @Override
     public String toString() {
         return "User{" +

@@ -65,8 +65,8 @@ public class Address {
     public Address(int userNo) {
         this.userNo = userNo;
     }
-    public Address(int userNo, String consignee, String detail_address, String tel) {
-        this.userNo = userNo;
+    public Address(int addressNo, String consignee, String detail_address, String tel) {
+        this.addressNo = addressNo;
         this.consignee = consignee;
         this.detail_address = detail_address;
         this.tel = tel;
