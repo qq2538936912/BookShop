@@ -49,6 +49,12 @@
                             <h2>图书名称：{{b.bookName}}</h2>
                             <p class="p">作者：{{b.author}}</p>
                             <span>图书简介：{{b.content}}</span>
+<!--                            <button class="bg" >-->
+<!--                                <router-link  :to="'/ShopBody'" >立即阅读</router-link>-->
+<!--                            </button>-->
+<!--                            <button class="bg2">-->
+<!--                                <router-link  :to="'y'" >查看目录</router-link>-->
+<!--                            </button>-->
                         </div>
                     </div>
                 </div>
@@ -223,11 +229,13 @@
         margin-bottom:10px;
         float: left;
 
+
     }
     .daohang2 .bg{
         color:beige;
         background-color:orangered;
         width:130px;
+        color:#ffffff;
         border: 2px solid orangered;
         margin-top:10px;
         margin-right:10px;
