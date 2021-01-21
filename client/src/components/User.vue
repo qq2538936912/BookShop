@@ -23,20 +23,23 @@
                     {{user.createtime}}
                 </div>
                     <el-button @click="updateuser(user.userno,user.username,user.userpass,user.phone)" >修改</el-button>
+                    <el-button @click="dropout">退出登录</el-button>
+
         </div>
             </el-tab-pane>
             <el-tab-pane label="我的购物车">
-                <div  v-for="c in cart" :key="c.cartNo">
+                <div><!-- v-for="c in cart" :key="c.cartNo"-->
                     <div>
                         <div>
-                            <el-tag>书名</el-tag>
-                            {{c.bookName}}
-                            <el-tag>价格</el-tag>
-                            {{c.cprice}}
-                            <el-tag>数量</el-tag>
-                            {{c.booknum}}
-                            <el-tag>注册时间</el-tag>
-                            {{c.created}}
+                            <cartbook></cartbook>
+<!--                            <el-tag>书名</el-tag>-->
+<!--                            {{c.bookName}}-->
+<!--                            <el-tag>价格</el-tag>-->
+<!--                            {{c.cprice}}-->
+<!--                            <el-tag>数量</el-tag>-->
+<!--                            {{c.booknum}}-->
+<!--                            <el-tag>注册时间</el-tag>-->
+<!--                            {{c.created}}-->
                         </div>
                     </div>
                 </div>
@@ -82,8 +85,12 @@
 
 <script>
     import axios from "axios";
+    import cartbook from "./user/CartBook"
     export default {
         name: "user",
+        components: {
+            cartbook
+        },
         data(){
             return{
                 tabPosition: 'left',
@@ -135,13 +142,16 @@
                 });
             },
             updateuser(userno,username,userpass,phone){
-                console.log(userno+username+userpass+phone)
                 axios.post("/api/UpdateUserServlet?userno=" + userno + "&username=" + username + "&userpass=" + userpass + "&phone=" + phone).then(e =>{
                     alert("修改成功")
                     axios.get("/api/SelectByPhoneServlet?phone=" + this.$route.params.phone).then(e =>{
                         this.user = e.data;
                     });
                 });
+            },
+            dropout(){
+                window.sessionStorage.setItem("user",JSON.stringify(""));
+                this.$router.push('/');
             }
         }
     }

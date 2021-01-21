@@ -10,6 +10,33 @@ public class Cart {
     private int booknum;	//加入购物车的商品数量
     private double cprice; 	//加入购物车时的价格
     private Date created;   //注册时间
+    private String bookName;
+    private double price;
+    private String cover;
+
+    public String getBookName() {
+        return bookName;
+    }
+
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
 
     public int getCartNo() {
         return cartNo;

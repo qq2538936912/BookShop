@@ -11,7 +11,7 @@ export default new VueRouter({
             path: '/shop/:productNo', component: shop
         },
         {
-            path: '/main', component: main
+            path: '/main', component: main,
         },
         {
             path: '/', redirect: '/main'

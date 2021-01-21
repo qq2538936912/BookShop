@@ -37,7 +37,9 @@ public class CartDao {
     }
     public List<Cart> selectbyuserNo(int userNo) throws Exception{
         Connection connection = DBHelper.getConnection();
-        String sql = "select * from book_cart where userNo = ?";
+        String sql = "select * from book_cart " +
+                "left join book_commodity on book_commodity.productNo=book_cart.productNo" +
+                " where userNo = ?";
         List<Cart> carts = null;
         try {
             QueryRunner runner = new QueryRunner();

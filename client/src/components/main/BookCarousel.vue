@@ -3,10 +3,10 @@
     <div class="recom">
         <el-carousel @change="carouselChange" trigger="click" class="carousel" :autoplay="false" height="400px">
             <el-carousel-item class="recomWrap" v-for="item in 4" :key="item">
-                <h3 class="book-name"
+                <h2 class="book-name"
                     @click="$router.push('/shop/' + book.productNo)">
                     {{book.bookName}}
-                </h3>
+                </h2>
                 <p class="content">{{book.content}}</p>
 
                 <!--图片轮播-->
@@ -98,13 +98,14 @@
 
 <style scoped>
     .carousel {
-        background-color: #99a9bf;
+        background-color: #ffffff;
+        margin-top:23px;
     }
 
 
-    .recomWrap h3 {
+    .recomWrap h2 {
         text-align: center;
-        color: white;
+        color: black;
     }
 
     .recomWrap .book-name:hover {
@@ -113,7 +114,7 @@
     }
 
     .recomWrap p {
-        color: #eeeeee;
+        color: black;
         font-size: 18px;
         text-align: center;
         opacity: 0.5;
@@ -126,6 +127,7 @@
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 1;
         overflow: hidden;
+
     }
 
 

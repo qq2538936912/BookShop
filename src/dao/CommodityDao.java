@@ -57,7 +57,7 @@ public class CommodityDao {
 
     public List<Commodity> selectgirlcommoditie() throws Exception{
         Connection connection = DBHelper.getConnection();
-        String sql = "select top(2)* from book_commodity where typeNo = ?";
+        String sql = "select top(14)* from book_commodity where typeNo = ?";
         List<Commodity> commodities = null;
         int random1 = (int)(8+Math.random()*(11-8+1));
         try {
@@ -75,7 +75,7 @@ public class CommodityDao {
 
     public List<Commodity> selectboycommoditie() throws Exception{
         Connection connection = DBHelper.getConnection();
-        String sql = "select top(2)* from book_commodity where typeNo = ?";
+        String sql = "select top(14)* from book_commodity where typeNo = ?";
         List<Commodity> commodities = null;
         int random1 = (int)(2+Math.random()*(7-2+1));
         try {
@@ -109,19 +109,43 @@ public class CommodityDao {
 
     public List<Commodity> selectrandomcommoditie() throws Exception{
         Connection connection = DBHelper.getConnection();
-        String sql = "select * from book_commodity where productNo in (?,?)";
+        String sql = "select * from book_commodity where productNo in (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         List<Commodity> commodities = null;
         int count = new CommodityDao().selectcproductNo();
         Random random = new Random();
         int random1 = 0;
         int random2 = 0;
+        int random3 = 0;
+        int random4 = 0;
+        int random5 = 0;
+        int random6 = 0;
+        int random7 = 0;
+        int random8 = 0;
+        int random9 = 0;
+        int random10 = 0;
+        int random11 = 0;
+        int random12 = 0;
+        int random13 = 0;
+        int random14 = 0;
         for (int i = 0; i <= count; i++){
-            random1 = random.nextInt(count);
-            random2 = random.nextInt(count);
+            random1 = random.nextInt(count)-1;
+            random2 = random.nextInt(count)-1;
+            random3 = random.nextInt(count)-1;
+            random4 = random.nextInt(count)-1;
+            random5 = random.nextInt(count)-1;
+            random6 = random.nextInt(count)-1;
+            random7 = random.nextInt(count)-1;
+            random8 = random.nextInt(count)-1;
+            random9 = random.nextInt(count)-1;
+            random10 = random.nextInt(count)-1;
+            random11 = random.nextInt(count)-1;
+            random12 = random.nextInt(count)-1;
+            random13 = random.nextInt(count)-1;
+            random14 = random.nextInt(count)-1;
         }
         try {
             QueryRunner runner = new QueryRunner();
-            commodities = runner.query(connection, sql, new BeanListHandler<Commodity>(Commodity.class),random1,random2);
+            commodities = runner.query(connection, sql, new BeanListHandler<Commodity>(Commodity.class),random1,random2,random3,random4,random5,random6,random7,random8,random9,random10,random11,random12,random13,random14);
         }
         catch (Exception e) {
             e.printStackTrace();
